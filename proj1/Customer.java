@@ -1,33 +1,95 @@
 
 /**
- * Write a description of class Customer here.
+ * This class represents the Customer structure as owned by the StorageLocation
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Brian Maxwell
+ * @version 4.5
  */
 public class Customer
 {
-    // instance variables - replace the example below with your own
-    private int x;
-
+    private String name;
+    private String pNumber;
+    private Double balance;
+    
     /**
      * Constructor for objects of class Customer
      */
-    public Customer()
+    public Customer(String name, String pNumber)
     {
-        // initialise instance variables
-        x = 0;
+        setName(name);
+        setPNumber(pNumber);
+        balance = 0.0;
+    }
+
+        /**
+     * a setter for this customers name
+     *
+     * @param   name   the name to set this customer to
+     */
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
     /**
-     * An example of a method - replace this comment with your own
+     * a setter for this customers phonenumber
      *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
+     * @param   pNumber   the phone number to set this customer to
      */
-    public int sampleMethod(int y)
+    public void setPNumber(String pNumber)
     {
-        // put your code here
-        return x + y;
+        this.pNumber = pNumber;
     }
+    
+    /**
+     * a getter for this customers name
+     *
+     * @return    name of the customer
+     */
+    public String getName()
+    {
+        return name;
+    }
+
+    /**
+     * a getter for this customers phone number
+     *
+     * @return    phone number of the customer
+     */
+    public String getPNumber()
+    {
+        return pNumber;
+    }
+
+    /**
+     * a getter for this customers current balance
+     *
+     * @return    balance
+     */
+    public double getBalance()
+    {
+        return balance;
+    }
+
+    /**
+     * this increases the balance on this customers account
+     *
+     *    
+     * @param   amount  the amount to increase the balance
+     */
+    public double chargeAccount(double amount)
+    {
+        return amount;
+    }
+    
+    /**
+     * this decreases the balance on this customers account
+     *
+     * @param   amount  the amount to decrease the balance
+     */
+    public double creditAccount(double amount)
+    {
+        return amount;
+    }
+    
 }

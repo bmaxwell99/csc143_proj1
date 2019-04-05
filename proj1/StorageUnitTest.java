@@ -1,4 +1,4 @@
-
+import java.time.LocalDate;
 
 import static org.junit.Assert.*;
 import org.junit.After;
@@ -13,6 +13,9 @@ import org.junit.Test;
  */
 public class StorageUnitTest
 {
+    
+    public static final double VARIANCE = 0.0001;
+    
     /**
      * Default constructor for test class StorageUnitTest
      */
@@ -39,4 +42,43 @@ public class StorageUnitTest
     public void tearDown()
     {
     }
+    
+    @Test
+    public void testConstrSetsAndGets()
+    {
+        StorageUnit unit1 = new StorageUnit(9, 14, 22, 34.99, RoomType.STANDARD);
+        
+        assertEquals(9,         unit1.getWidth(),      VARIANCE);
+        assertEquals(14,        unit1.getHeight(),     VARIANCE);
+        assertEquals(22,        unit1.getLength(),     VARIANCE);
+        assertEquals(34.99,     unit1.getPrice(),      VARIANCE);
+        
+        assertEquals(RoomType.STANDARD,     unit1.getRoomType());
+    }
+
+    @Test
+    public void testRentingAndReleaseAbilities()  
+    {
+        StorageUnit unit1 = new StorageUnit(9, 14, 22, 34.99, RoomType.STANDARD);
+        Customer cust1 = new Customer("Joe Schmoe", "1-234-567-7890");
+        LocalDate date1 = LocalDate.now();
+        
+        //test rentUnitTo and getters
+        unit1.rentUnitTo(cust1, date1);
+        assertEquals(cust1,     unit1.getCustomer());
+        assertEquals(date1,     unit1.getRentalDate());
+        assertEquals(34.99,     unit1.getPrice());
+        
+        //test release
+        unit1.releaseUnit();
+        assertEquals(null,     unit1.getCustomer());
+        assertEquals(null,     unit1.getRentalDate());
+        
+        //test rentUnitToWithPrice
+        unit1.rentUnitTo(cust1, date1, 25);
+        assertEquals(25,     unit1.getPrice());
+        
+        
+    }
+    
 }

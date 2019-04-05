@@ -1,33 +1,12 @@
 
 /**
- * Write a description of class RoomType here.
+ * Enumeration class RoomType - turns the three room types into an enumerated 
+ * structure
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Brian Maxwell
+ * @version 4.5
  */
-public class RoomType
+public enum RoomType
 {
-    // instance variables - replace the example below with your own
-    private int x;
-
-    /**
-     * Constructor for objects of class RoomType
-     */
-    public RoomType()
-    {
-        // initialise instance variables
-        x = 0;
-    }
-
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
-    }
+    STANDARD, HUMIDITY_CONTROLLED, TEMPERATURE_CONTROLLED
 }

@@ -13,6 +13,8 @@ import org.junit.Test;
  */
 public class CustomerTest
 {
+    public static final double DOLLAR_VARIANCE = 0.0001;
+    
     /**
      * Default constructor for test class CustomerTest
      */
@@ -38,5 +40,22 @@ public class CustomerTest
     @After
     public void tearDown()
     {
+    }
+    
+    @Test
+    public void testConstrSetsAndGets() {
+        Customer cust1 = new Customer("Joe Schmoe", "1-234-567-7890");
+        assertEquals("Joe Schmoe",      cust1.getName());
+        assertEquals("1-234-567-7890",  cust1.getPNumber());
+        assertEquals(0,                 cust1.getBalance(), DOLLAR_VARIANCE);
+    }
+    
+    @Test
+    public void testChargeAndCreditAccount()    {
+        Customer cust1 = new Customer("Joe Schmoe", "1-234-567-7890");
+        assertEquals(39.99, cust1.chargeAccount(39.99),     DOLLAR_VARIANCE);
+        assertEquals(39.99, cust1.getBalance(),             DOLLAR_VARIANCE);
+        assertEquals(19.99, cust1.creditAccount(19.99),     DOLLAR_VARIANCE);
+        assertEquals(20,    cust1.getBalance(),             DOLLAR_VARIANCE);
     }
 }
