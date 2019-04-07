@@ -189,7 +189,7 @@ public class StorageUnit
      */
     public void releaseUnit()
     {
-        this.rentUnitTo(null, null, price);
+        this.rentUnitTo(null, null, this.price);
     }
 
 }

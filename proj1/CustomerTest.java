@@ -58,4 +58,36 @@ public class CustomerTest
         assertEquals(19.99, cust1.creditAccount(19.99),     DOLLAR_VARIANCE);
         assertEquals(20,    cust1.getBalance(),             DOLLAR_VARIANCE);
     }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testConstrName()
+    {
+        Customer cust1 = new Customer("123 456", "1-234-567-7890");        
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testConstrPNumber()
+    {
+        Customer cust1 = new Customer("Joe Scmoe", "a-234-567-7890");        
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testChargeNeg(){
+        Customer cust1 = new Customer("Joe Scmoe", "a-234-567-7890");
+        cust1.chargeAccount(-.01);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testCreditNeg(){
+        Customer cust1 = new Customer("Joe Scmoe", "a-234-567-7890");
+        cust1.chargeAccount(.01);
+        cust1.creditAccount(-.01);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testCreditLessThanBalance(){
+        Customer cust1 = new Customer("Joe Scmoe", "a-234-567-7890");
+        cust1.chargeAccount(24.99);
+        cust1.creditAccount(25);
+    }
 }

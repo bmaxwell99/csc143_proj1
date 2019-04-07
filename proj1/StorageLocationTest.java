@@ -66,4 +66,27 @@ public class StorageLocationTest
     public void testAccrueRent()    
     {
     }  
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testConstrDesignation() {
+        StorageLocation loc1 = new StorageLocation("23Issaquah");
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testGetStrgRowNeg() {
+        StorageLocation loc1 = new StorageLocation("WA23Issaquah");
+        loc1.getStorageUnit(-1,0);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testGetStrgColNeg() {
+        StorageLocation loc1 = new StorageLocation("WA23Issaquah");
+        loc1.getStorageUnit(0,-1);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testGetCustIndexNeg() {
+        StorageLocation loc1 = new StorageLocation("WA23Issaquah");
+        loc1.getCustomer(-1);
+    }
 }

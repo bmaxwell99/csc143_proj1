@@ -81,4 +81,28 @@ public class StorageUnitTest
         
     }
     
+    @Test (expected = IllegalArgumentException.class)
+    public void testConstrWidthNeg()    {
+        StorageUnit unit1 = new StorageUnit(-9, 14, 22, 34.99, RoomType.STANDARD);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testConstrHeightNeg()    {
+        StorageUnit unit1 = new StorageUnit(9, -14, 22, 34.99, RoomType.STANDARD);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testConstrLengthNeg()    {
+        StorageUnit unit1 = new StorageUnit(9, 14, -22, 34.99, RoomType.STANDARD);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testConstrPriceNeg()    {
+        StorageUnit unit1 = new StorageUnit(9, 14, 22, -34.99, RoomType.STANDARD);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testConstrRoomTypeNull()    {
+        StorageUnit unit1 = new StorageUnit(9, 14, 22, 34.99, null);
+    }
 }
