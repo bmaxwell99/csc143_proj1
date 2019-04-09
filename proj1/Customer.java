@@ -1,3 +1,4 @@
+import java.lang.IllegalArgumentException;
 
 /**
  * This class represents the Customer structure as owned by the StorageLocation
@@ -10,7 +11,7 @@ public class Customer
     private String name;
     private String pNumber;
     private Double balance;
-    
+
     /**
      * Constructor for objects of class Customer
      */
@@ -21,13 +22,16 @@ public class Customer
         balance = 0.0;
     }
 
-        /**
+    /**
      * a setter for this customers name
      *
      * @param   name   the name to set this customer to
      */
     public void setName(String name)
     {
+        if (!(name.matches("(?i)[a-z]*(\\s)[a-z]*"))){
+            throw new IllegalArgumentException("Names must be made of a first and last name, letters only.");
+        }
         this.name = name;
     }
 
@@ -38,9 +42,12 @@ public class Customer
      */
     public void setPNumber(String pNumber)
     {
+        if (!(name.matches("[1-9][-]([0-9]{3})[-]([0-9]{3})[-]([0-9]{4} "))){
+            throw new IllegalArgumentException("Phone numbers MUST be of the format: #-###-###-#### ");
+        }
         this.pNumber = pNumber;
     }
-    
+
     /**
      * a getter for this customers name
      *
@@ -81,7 +88,7 @@ public class Customer
     {
         return amount;
     }
-    
+
     /**
      * this decreases the balance on this customers account
      *
@@ -91,5 +98,5 @@ public class Customer
     {
         return amount;
     }
-    
+
 }
