@@ -12,6 +12,7 @@ public class StorageLocation
     private String designation;
     private StorageUnit[][] storageUnits = new StorageUnit[12][20];
     private Customer[] customers = new Customer[100];
+    private int num_customers;
 
     /**
      * Constructor for objects of class StorageLocation
@@ -20,7 +21,28 @@ public class StorageLocation
      */
     public StorageLocation(String designation)
     {
-        this.designation = designation;
+        if(designation.matches("^(A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|P[AR]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY])(\\d{2})(?i)([a-z]+)$"))
+        {
+            this.designation = designation;
+        }
+        else {
+            throw new IllegalArgumentException("Designation MUST start with state abrev, followed by two digits, followed by city name.");
+        }
+
+        for(int row = 0; row < 10; row++) {
+            for(int col = 0; col < 20; col++)   {
+                storageUnits[row][col] = new StorageUnit(9, 14, 22, 34.99, RoomType.STANDARD);
+
+            }
+        }
+
+        for(int col = 0; col < 20; col++)   {
+            storageUnits[10][col] = new StorageUnit(9, 14, 22, 44.99, RoomType.HUMIDITY_CONTROLLED);
+        }
+
+        for(int col = 0; col < 20; col++)   {
+            storageUnits[11][col] = new StorageUnit(9, 14, 22, 54.99, RoomType.TEMPERATURE_CONTROLLED);
+        }
     }
 
     /**
@@ -42,9 +64,19 @@ public class StorageLocation
      */
     public StorageUnit getStorageUnit(int row, int col)
     {
-        return null;
+        if( row >= 0 & row < 12) {
+            if( col >= 0 & row < 20) {
+                return storageUnits[row][col];
+            }
+            else    {
+                throw new IllegalArgumentException("col must be of the index between 0 and 19");
+            }
+        }
+        else    {
+            throw new IllegalArgumentException("row must be of the index between 0 and 11");
+        }
     }
-    
+
     /**
      * adds a new customer to the array Customers
      *
@@ -54,6 +86,16 @@ public class StorageLocation
      */
     public void addCustomer(String name, String pNumber)
     {
+        customers[num_customers] = new Customer(name, pNumber);
+        num_customers += 1;
+        //if num_customers reaches 100, create new array of customers and add the previous one to it
+        if(num_customers == 100)    {
+            Customer[] temp = new Customer[(customers.length + 100)];
+            for(int i = 0; i < customers.length; i++)    {
+                temp[i] = customers[i];
+            }
+            customers = temp;
+        }
     }
 
     /**
@@ -64,7 +106,12 @@ public class StorageLocation
      */
     public Customer getCustomer(int index)
     {
-        return null;
+        if (index >= 0 & index < num_customers) {
+            return customers[index];
+        }
+        else    {
+            throw new IllegalArgumentException("input must be a positive number less than the num_customers on file");
+        }
     }
 
     /**
@@ -74,47 +121,71 @@ public class StorageLocation
      */
     public int getNumCustomers()
     {
-        return 0;
+        return num_customers;
     }
-    
+
     /**
-     * charges every storage unit's monthly rent to the customer who owns it
+     * charges every occupied storage unit's monthly rent to the customer who owns it
      *
      */
     public void accrueRent()
     {
+        for(StorageUnit[] row : storageUnits) {
+            for(StorageUnit stor : row)   {
+                //checks to make sure occupied
+                if (stor.getCustomer() != null)    {
+                    stor.getCustomer().chargeAccount(stor.getPrice());
+                }
+            }
+        }
     }
 
     /**
-     * retreives an array of storage units owned by any particulat customer
+     * retreives an array of storage units owned by any particular customer, and or any particular room type;
+     * retreives an array of all unoccupied units if both parameters are null.
      *
-     * @param  Customer     the customer whose units are being retrieved
+     * @param  cust         the customer whose units are being retrieved, null ignores customers for the search
+     * @param  type         the roomtype to be searched for, null ignores room type for the search
      * @return              the array of Storage Units owned
      */
-    public StorageUnit[] getUnitsByCustomer(Customer cust)
+    public StorageUnit[] getUnits(Customer cust, RoomType type)
     {
-        return null;
+        StorageUnit[] units = new StorageUnit[240];
+        int unitsIndex = 0;
+        for(StorageUnit[] row : storageUnits) {
+            for(StorageUnit stor : row)   {
+                //searches for a specific customer with a specific roomtype
+                if( cust != null & type != null) {
+                    if(stor.getCustomer().equals(cust) & stor.getRoomType().equals(type))   {
+                        units[unitsIndex] = stor;
+                        unitsIndex += 1;
+                    }
+                }
+                //searches for a specific customer
+                if( cust != null & type == null)   {
+                    if(stor.getCustomer().equals(cust)) {
+                        units[unitsIndex] = stor;
+                        unitsIndex += 1;
+                    }
+                }
+                //searches for a specific roomtype
+                if( cust == null & type != null)   {
+                    if(stor.getCustomer().equals(null) & stor.getRoomType().equals(type)) {
+                        units[unitsIndex] = stor;
+                        unitsIndex += 1;
+                    }
+                }
+                //searches for all empty units
+                else    {
+                    if(stor.getCustomer().equals(null)) {
+                        units[unitsIndex] = stor;
+                        unitsIndex += 1;
+                    }
+                }
+            }
+        }
+        return units;
     }
 
-    /**
-     * Retrieves an array of all empty units
-     *
-     * @return    an array of StorageUnits that are empty
-     */
-    public StorageUnit[] getEmptyUnits()
-    {
-        return null;
-    }
-
-     /**
-     * Retrieves an array of all empty units of a given type
-     *
-     * @param   roomType    type of the room to be searched for
-     * @return              an array of StorageUnits, of the type, that are empty
-     */
-    public StorageUnit[] getEmptyUnitsOfType(RoomType roomType)
-    {
-        return null;
-    }
 }
 

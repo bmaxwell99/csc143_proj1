@@ -27,6 +27,7 @@ public class StorageUnit
         setLength(length);
         setPrice(price);
         setRoomType(roomtype);
+        rentedFor = -1;
     }
 
     /**
@@ -37,9 +38,14 @@ public class StorageUnit
      */
     public void setWidth(double width)
     {
-        this.width = width;
+        if (width > 0)  {
+            this.width = width;
+        }
+        else {
+            throw new IllegalArgumentException("Width must be a non zero positive number");
+        }
     }
-    
+
     /**
      * a setter for the height variable
      *
@@ -48,9 +54,14 @@ public class StorageUnit
      */
     public void setHeight(double height)
     {
-        this.height = height;
+        if (height > 0 )    {
+            this.height = height;
+        }
+        else    {
+            throw new IllegalArgumentException("Height must be a non zero postive number");
+        }
     }
-    
+
     /**
      * a setter for the length variable
      *
@@ -59,9 +70,14 @@ public class StorageUnit
      */
     public void setLength(double length)
     {
-        this.length = length;
+        if (length > 0) {
+            this.length = length;
+        }
+        else    {
+            throw new IllegalArgumentException("Length must be a non zero positive number");
+        }
     }
-    
+
     /**
      * a setter for the price variable
      *
@@ -70,9 +86,30 @@ public class StorageUnit
      */
     public void setPrice(double price)
     {
-        this.price = price;
+        if (price > 0)  {
+            this.price = price;
+        }
+        else {
+            throw new IllegalArgumentException("Price must be a non zero positive number");
+        }
     }
     
+    /**
+     * a setter for the rentedFor variable
+     *
+     * @param  double   the price to be set
+     *
+     */
+    public void setRentedFor(double price)
+    {
+        if (price > 0)  {
+            this.price = price;
+        }
+        else {
+            throw new IllegalArgumentException("Price must be a non zero positive number");
+        }
+    }
+
     /**
      * a setter for the roomType variable
      *
@@ -81,9 +118,14 @@ public class StorageUnit
      */
     public void setRoomType(RoomType roomType)
     {
-        this.roomType = roomType;
+        if(roomType != null) {
+            this.roomType = roomType;
+        }
+        else    {
+            throw new IllegalArgumentException("Room Type cannot be null");
+        }
     }
-    
+
     /**
      * a getter for units width
      *
@@ -93,7 +135,7 @@ public class StorageUnit
     {
         return width;
     }
-    
+
     /**
      * a getter for units height
      *
@@ -103,7 +145,7 @@ public class StorageUnit
     {
         return height;
     }
-    
+
     /**
      * a getter for units length
      *
@@ -113,7 +155,7 @@ public class StorageUnit
     {
         return length;
     }
-    
+
     /**
      * a getter for Price
      *
@@ -121,10 +163,16 @@ public class StorageUnit
      */
     public double getPrice()
     {
-        //if rented for variable exists return that
+        double price;
+        if(rentedFor == -1) {
+            price = this.price;
+        }
+        else {
+            price = this.rentedFor;
+        }
         return price;
     }
-    
+
     /**
      * a getter for units type
      *
@@ -134,8 +182,7 @@ public class StorageUnit
     {
         return roomType;
     }
-    
-    
+
     /**
      * a getter for Customer renting the unit
      *
@@ -145,7 +192,7 @@ public class StorageUnit
     {
         return rentedBy;
     }
-    
+
     /**
      * a getter for the rental start date
      *
@@ -155,8 +202,8 @@ public class StorageUnit
     {
         return rentalDate;
     }
-    
-        /**
+
+    /**
      * this method rents this unit to a given customer at a given date at a
      * specified price
      *
@@ -168,9 +215,9 @@ public class StorageUnit
     {
         this.rentedBy = cust;
         this.rentalDate = startDate;
-        this.rentedFor = price;
+        setRentedFor(price);
     }    
-    
+
     /**
      * this method rents this unit to a given customer at a given date at the
      * standard price
@@ -189,7 +236,8 @@ public class StorageUnit
      */
     public void releaseUnit()
     {
-        this.rentUnitTo(null, null, this.price);
+        this.rentUnitTo(null, null);
+        this.rentedFor = -1;
     }
 
 }

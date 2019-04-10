@@ -42,24 +42,14 @@ public class StorageLocationTest
     
     @Test
     public void testConstrAndGets() {
-        StorageLocation loc1 = new StorageLocation("WA23Issaquah");
-        assertEquals("WA23Issaquah", loc1.getDesignation());
-        assertEquals(null, loc1.getStorageUnit(0, 0));
+        StorageLocation loc1 = new StorageLocation("WA01Issaquah");
+        assertEquals("WA01Issaquah", loc1.getDesignation());
+        assertEquals(RoomType.STANDARD, loc1.getStorageUnit(0, 0).getRoomType());
         
         //tests the customer related adders/getters
-        loc1.addCustomer("Joe Schmoe", "1-234-567-7890");
-        assertEquals(null, loc1.getCustomer(0));
-        assertEquals(0, loc1.getNumCustomers());
-    }
-    
-    @Test
-    public void testUnitArrayGetters() {
-        StorageLocation loc1 = new StorageLocation("WA23Issaquah");
-        Customer cust1 = new Customer("Joe Schmoe", "1-234-567-7890");
-        
-        assertEquals(null, loc1.getUnitsByCustomer(cust1));
-        assertEquals(null, loc1.getEmptyUnits());
-        assertEquals(null, loc1.getEmptyUnitsOfType(RoomType.STANDARD));
+        loc1.addCustomer("Joe Schmoe", "12345367899");
+        assertEquals("Joe Schmoe", loc1.getCustomer(0).getName());
+        assertEquals(1, loc1.getNumCustomers());
     }
     
     @Test

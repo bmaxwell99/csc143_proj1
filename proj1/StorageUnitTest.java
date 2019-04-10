@@ -60,14 +60,14 @@ public class StorageUnitTest
     public void testRentingAndReleaseAbilities()  
     {
         StorageUnit unit1 = new StorageUnit(9, 14, 22, 34.99, RoomType.STANDARD);
-        Customer cust1 = new Customer("Joe Schmoe", "1-234-567-7890");
+        Customer cust1 = new Customer("Joe Schmoe", "1234567899");
         LocalDate date1 = LocalDate.now();
         
         //test rentUnitTo and getters
         unit1.rentUnitTo(cust1, date1);
         assertEquals(cust1,     unit1.getCustomer());
         assertEquals(date1,     unit1.getRentalDate());
-        assertEquals(34.99,     unit1.getPrice());
+        assertEquals(34.99,     unit1.getPrice(),      VARIANCE);
         
         //test release
         unit1.releaseUnit();
@@ -76,7 +76,7 @@ public class StorageUnitTest
         
         //test rentUnitToWithPrice
         unit1.rentUnitTo(cust1, date1, 25);
-        assertEquals(25,     unit1.getPrice());
+        assertEquals(25,     unit1.getPrice(),  VARIANCE);
         
         
     }
@@ -99,6 +99,12 @@ public class StorageUnitTest
     @Test (expected = IllegalArgumentException.class)
     public void testConstrPriceNeg()    {
         StorageUnit unit1 = new StorageUnit(9, 14, 22, -34.99, RoomType.STANDARD);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testRentedForNeg()    {
+        StorageUnit unit1 = new StorageUnit(9, 14, 22, 34.99, RoomType.STANDARD);
+        unit1.setRentedFor(-.01);
     }
     
     @Test (expected = IllegalArgumentException.class)

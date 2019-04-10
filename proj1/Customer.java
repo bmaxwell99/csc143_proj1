@@ -42,10 +42,12 @@ public class Customer
      */
     public void setPNumber(String pNumber)
     {
-        if (!(name.matches("[1-9][-]([0-9]{3})[-]([0-9]{3})[-]([0-9]{4} "))){
-            throw new IllegalArgumentException("Phone numbers MUST be of the format: #-###-###-#### ");
+        if (pNumber.matches("[\\d]{10,11}")){
+            this.pNumber = pNumber;
         }
-        this.pNumber = pNumber;
+        else{
+            throw new IllegalArgumentException("Phone numbers must be ONLY digits, area code optional");
+        }
     }
 
     /**
@@ -86,6 +88,10 @@ public class Customer
      */
     public double chargeAccount(double amount)
     {
+        if(amount < 0 ) {
+            throw new IllegalArgumentException("Charge must be a positive number");
+        }
+        else {balance += amount;}
         return amount;
     }
 
@@ -96,6 +102,15 @@ public class Customer
      */
     public double creditAccount(double amount)
     {
+        if (amount < 0 ) {
+            throw new IllegalArgumentException("Credit must be a positive number");
+        }
+        else if (amount >= this.balance) {
+            throw new IllegalArgumentException("Credit cannot be greater than current balance");
+        }
+        else {
+            balance -= amount;
+        }
         return amount;
     }
 
